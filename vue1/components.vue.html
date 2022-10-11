@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components</title>
+</head>
+<body>
+
+<div id="root">
+    <input type="text" v-model="valueProp.titulo">
+    <!-- methodo de shallow copy -->
+    <component :is="{...comp.otherComponent}"  ></component>
+    <component :is="{...comp.componentToRender}" :titulo="valueProp.titulo"  ></component>
+    <!-- <component-render></component-render>
+    <other-component></other-component> -->
+</div>
+
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+
+    let componentToRender = {
+
+        template : '<h1>Soy un componente {{ titulo }}</h1>',
+        props:{
+            titulo:String
+        }
+    };
+
+    let otherComponent={
+        template : '<h1 @click="upper"> {{ click }}</h1>',
+        data:function(){
+            return {
+                click:'Valor a cambiar'
+            }
+        },
+        methods:{
+            upper(){
+                this.click = this.click.toUpperCase()
+            }
+        }
+    };
+
+    let components = {
+        data:function(){
+            return {
+                nombre:"Hola soy algo",
+                valueProp:{
+                    titulo: ''
+                },
+                comp: {
+                    componentToRender,
+                    otherComponent
+                }
+            }
+        }
+    }
+    let app = Vue.createApp(components);
+    app.component('component-render',componentToRender);
+    app.component('other-component',otherComponent)
+    app.mount("#root")
+</script>
+</body>
+</html>

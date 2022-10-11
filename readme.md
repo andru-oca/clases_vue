@@ -63,7 +63,8 @@
 - Directivas condicionales, estructurales y de atributo.
     
 - Componentes.
-
+> Creacion de componentes.\
+Se puede realizar de dos formas, uno creando funcionalidades internas dentro del elemento
 
 
 #### Vue 2 - DOM y Eventos
