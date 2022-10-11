@@ -17,12 +17,10 @@ const loadPage = async (page) => {
     sessionStorage.setItem('dba',`${dba}`);
     sessionStorage.setItem('frontend',`${frontend}`);
     sessionStorage.setItem('vue',`${vue}`);
-
   };
 
 
 loadAllPages();
-
   let data = {
     backend : sessionStorage.getItem('backend'),
     dba : sessionStorage.getItem('dba'),
@@ -36,22 +34,41 @@ loadAllPages();
 let backend = {
     template:data.backend,
     data(){
-        return{
-            titulo:"BACKEND"
-        }
+        return {}
+    },
+    props:{
+        titulo:String
     }
 }
 
 let dba ={
-    template:data.dba
+    template:data.dba,
+    data(){
+        return {}
+    },
+    props:{
+        titulo:String
+    }
 }
 
 let frontend ={
-    template:data.frontend
+    template:data.frontend,
+    data(){
+        return {}
+    },
+    props:{
+        titulo:String
+    }
 }
 
 let vue ={
-    template:data.vue
+    template:data.vue,
+    data(){
+        return {}
+    },
+    props:{
+        titulo:String
+    }
 }
 
 
@@ -61,7 +78,15 @@ let vue ={
 let root = {
     data(){
         return {
-            name:"Components"
+            name:"Components",
+            componenteSeleccionado : null,
+            props:null
+        }
+    },
+    methods:{
+        changeNav(componente,propiedades){
+            this.componenteSeleccionado = componente;
+            this.props = propiedades
         }
     }
 }

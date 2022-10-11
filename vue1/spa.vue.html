@@ -16,18 +16,21 @@
             </div>
 
             <ul>
-                <li><a href="">Curso Front-End</a></li>
-                <li><a href="">Curso Base Datos</a></li>
-                <li><a href="">Curso Back-End</a></li>
-                <li><a href="">Curso VUE</a></li>
+                <li><a @click="changeNav('frontend-component', 'Curso Front End')">Curso Front-End</a></li>
+                <li><a @click="changeNav('dba-component', 'Curso Base de Datos')">Curso Base Datos</a></li>
+                <li><a @click="changeNav('backend-component','Curso Back-End')">Curso Back-End</a></li>
+                <li><a @click="changeNav('vue-component', 'Curso VUE')">Curso VUE</a></li>
             </ul>
         </nav>
         <hr>
+        <keep-alive> 
+            <component :is="componenteSeleccionado" :titulo="props">
+        </keep-alive>
         
-        <backend-component></backend-component>
+        <!-- <backend-component></backend-component>
         <frontend-component></frontend-component>
         <vue-component></vue-component>
-        <dba-component></dba-component>
+        <dba-component></dba-component> -->
     </div>
     <script src="https://unpkg.com/vue@next"></script>
     <script src="js/spa.components.js"></script>
