@@ -3,74 +3,50 @@
 const loadPage = async (page) => {
     const response = await fetch(page);
     const resHtml = await response.text();
-    return resHtml;
-  };
-  
-
-  const loadAllPages = async () => {
-    backend = await loadPage('./spaComponents/backEnd.html');
-    dba = await loadPage('./spaComponents/dba.html');
-    frontend = await loadPage('./spaComponents/frontEnd.html');
-    vue = await loadPage('./spaComponents/vue.html');
-    
-    sessionStorage.setItem('backend',`${backend}`);
-    sessionStorage.setItem('dba',`${dba}`);
-    sessionStorage.setItem('frontend',`${frontend}`);
-    sessionStorage.setItem('vue',`${vue}`);
+    return `${resHtml}`
   };
 
 
-loadAllPages();
-  let data = {
-    backend : sessionStorage.getItem('backend'),
-    dba : sessionStorage.getItem('dba'),
-    frontend : sessionStorage.getItem('frontend'),
-    vue : sessionStorage.getItem('vue')
-}
+// Creo lista de componentes
 
-
-  /*usar solo componentes para poder generar lo dinámico de estas páginas*/
-
-let backend = {
-    template:data.backend,
-    data(){
-        return {}
-    },
-    props:{
-        titulo:String
+componentesToUse = {
+    backend:{  async created(){
+        this.templates = await loadPage('./spaComponents/backEnd.html');
+    }},
+    frontend:{  async created(){
+        this.templates = await loadPage('./spaComponents/frontEnd.html');
+    }},
+    dba:{  async created(){
+        this.templates = await loadPage('./spaComponents/dba.html');
+    }},
+    vue:{  async created(){
+        this.templates = await loadPage('./spaComponents/vue.html');
     }
-}
-
-let dba ={
-    template:data.dba,
-    data(){
-        return {}
-    },
-    props:{
-        titulo:String
     }
-}
+};
 
-let frontend ={
-    template:data.frontend,
-    data(){
-        return {}
-    },
-    props:{
-        titulo:String
-    }
-}
+///Genero data en modo 
 
-let vue ={
-    template:data.vue,
-    data(){
-        return {}
-    },
-    props:{
-        titulo:String
-    }
+for (let route in componentesToUse){
+    let body = {
+        template:`
+        <div > 
+        <h1 class="style">{{titulo}}</h1>
+        <div v-html="templates"></div>
+        </div>
+        `,
+        data(){
+            return{
+                templates:null,
+            }
+        },
+        props:{
+            titulo:String,
+            style:String
+        }
+    } 
+    componentesToUse[route] ={...componentesToUse[route],...body}
 }
-
 
 
 /*crear la forma de incluirlos*/
@@ -80,7 +56,10 @@ let root = {
         return {
             name:"Components",
             componenteSeleccionado : null,
-            props:null
+            props: "BIENVENIDO A CODO A CODO VUE CLASS",
+            isActive:true,
+            design:"footerStyle",
+            bgJS: "background",
         }
     },
     methods:{
@@ -88,15 +67,45 @@ let root = {
             this.componenteSeleccionado = componente;
             this.props = propiedades
         }
-    }
+    },
+    components:{
+        'backend-component': componentesToUse.backend,
+        'frontend-component':componentesToUse.frontend,
+        'dba-component':componentesToUse.dba,
+        'vue-component':componentesToUse.vue
+    } 
 }
 
 
 let rootComponent = Vue.createApp(root)
 
-rootComponent.component("backend-component",backend);
-rootComponent.component("frontend-component",frontend);
-rootComponent.component("dba-component",dba);
-rootComponent.component("vue-component",vue);
+let footer ={
+    template:'<footer > {{ titulo }}  </footer>',
+    props:{
+        titulo:String,
+        cssStyle:String
+    }
+
+}
+
+
+rootComponent.component('footer-component',
+    footer
+)
 
 rootComponent.mount("#root");
+
+
+
+
+const target = document.getElementById('js')
+
+document.addEventListener('click', (e) => {
+  const withinBoundaries = e.composedPath().includes(target)
+
+  if (withinBoundaries) {
+    document.querySelector('body').classList = 'background';
+  } else {
+    document.querySelector('body').classList.remove('background');
+  } 
+})
