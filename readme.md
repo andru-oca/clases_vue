@@ -67,6 +67,12 @@
 Se puede realizar de dos formas, uno creando funcionalidades internas dentro del elemento
 
 
+#### Ejemplos generales : TPO
+> Ejemplo de Router sin VUE-ROUTER spa.vue.html
+---
+- Detalles a tener en cuenta: _El procedimiento es generar procesos asincronos que nos permitan devolver elementos iteradores dentro del root_
+
+
 #### Vue 2 - DOM y Eventos
 ---
 
