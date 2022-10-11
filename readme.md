@@ -1,9 +1,70 @@
 #### Vue 1 - Introducción a Vue
 ---
 - Introducción a Vue.js. ¿Qué es? Instalación. CDN.
+    >Instalación de VUE - Modo por CLI\
+    >Modo de uso CDN
 - Renderizado.
+    > Renderizado de objetos:\
+    _Se suele realizar el renderizado por medio de declaraciones simples, entendiendo el concepto de la sintaxis de creación y de instanciado del objeto VUE_
+    
+**MUY IMPORANTE: Conocer el concepto de los ciclos de vida de los elementos en el archivo lifecycle se observaran los estados** 
+>  _ver archivo ligecycle.html_
+
+> Declaraciones de instancia inicial recomendado:\
+    * _Todo objeto Vue debe ser instanciado con un objeto_\
+    * _Debe ser creado y colocado dentro de una variable_\
+    * _Debe ser montado, usando el método .mount("<ID_elemento_a_montar>")_
+    
+```
+//Forma recomendada de instanciar un Vue
+    let argumentObject = {
+        data(){
+            return{
+                //data de inicializacion 
+                key:value
+            }
+        },
+        created(){
+            /*agrega codigo para ser ejecutado al momento de ser creado*/
+        },
+        mounted(){
+            /* agrega o ejecuta codigo cuando ha sido montado el elemento*/
+        },
+        methods:{
+            /*
+            son las funciones que permiten las acciones y funcionabilidades en Vue usando JS
+            */
+        },
+        computed:{
+            /*calculos computados en el momento de ser ejecutados -- se recomienda no realizar calculos muy complejos*/
+        },
+        watch:{
+            /*observador, que permite ver cuando suceden cambios*/
+        }
+    /*entre otros*/
+    }
+```    
+
+> En el archivo HTML, template, etc, debemos proporcionarle las directivas que debe leer VueJs, de tal manera que entienda que requerimientos se está realizando en cada elemento proporcionado.
+
+### Principales Directivas:
+- v-text: https://es.vuejs.org/v2/api/#v-text
+    _Coloca el valor de la data dentro del set colocado_
+- v-bind: https://es.vuejs.org/v2/api/#v-bind 
+    _enlaca el valor con el elemento seleccionado_
+- v-if, v-else, v-elseif: https://es.vuejs.org/v2/api/#v-if 
+    _condicionales (tambien se puede usar el shortcircuit)_
+- v-for: https://es.vuejs.org/v2/api/#v-for 
+    _iterador_
+- v-show: https://es.vuejs.org/v2/api/#v-show 
+    _permite ver o no ver_
+- v-model: https://es.vuejs.org/v2/api/#v-model  
+    __
 - Directivas condicionales, estructurales y de atributo.
+    
 - Componentes.
+
+
 
 #### Vue 2 - DOM y Eventos
 ---
@@ -23,9 +84,6 @@
      Simple Page Aplicación. ¿Qué es y qué beneficios tiene sobre una página web?
 
     [Link de Multipage vs Single](https://medium.com/@NeotericEU/single-page-application-vs-multiple-page-application-2591588efe58)
-
-
-
 
 
     - #### Concepto MVC.
@@ -100,3 +158,10 @@
     _Ver ejemplo en la carpeta Vue3 con Axios_
     
     [AXIOS](https://axios-http.com/)
+
+
+### Proyectos Adicionales
+---
+- Lista de tareas
+- Autosave
+- SPA Home | Login | Contact Us

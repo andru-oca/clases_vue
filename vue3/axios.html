@@ -13,6 +13,7 @@
     <div id="render" align="center">
         <h3>Click sobre cualquier item para descartarlos</h3>
         <h4>Cantidad de items descartados {{counters}}</h4>
+        <h4 v-show="setWarn">Estas a punto de quedarte sin items</h4>
         <div v-for="item in values" >
             <div @click="addHidden(item.id)"  :key="item.id"  class="card">
                 <div class="data">
@@ -25,7 +26,7 @@
                 </div>
             </div>
         </div>
-
+    <Linker></Linker>
     </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js" ></script>
 <script src="https://unpkg.com/vue@next" ></script>
@@ -33,12 +34,25 @@
 <script>
 /*render con vue*/
 
+let Linker = {
+    
+    template: `<h1>SOY UN COMPONENTE LLAMADO: {{ nombre }}</h1>`,
+    data(){
+        return {
+            nombre: 'Linker'
+        }
+            
+    }
+}
+
+
 let dataToRender = {
     data(){
         return {
             nombre : '<h1>Ejemplo de render con Axios</h1>',
             values : [],
-            counter : []
+            counter : [],
+            setWarn : false
             
         }
     },
@@ -47,7 +61,7 @@ let dataToRender = {
         let url = 'https://dummyjson.com/products'; //link to restapi endpoint
         let res = await axios.get(url);
         this.values = await res.data.products;
-        console.log(this.values);
+  
     },
     methods:{
         addHidden(id){
@@ -60,6 +74,16 @@ let dataToRender = {
         counters(){
             return this.counter.length !== 0 ? this.counter.length: ''
         }
+    },
+    watch:{
+        values(){
+            if(this.values.length < 15){
+                this.setWarn = true;
+            }
+        }
+    },
+    components:{
+        Linker
     }
 
 

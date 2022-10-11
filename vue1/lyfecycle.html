@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeCycle</title>
+</head>
+<body>
+<div id="root" >
+    <h3>
+        {{status}}
+    </h3>
+    <h4 @click="updated">{{ time }}</h4>
+    <hr>
+    
+</div>
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+    let root = {
+        data(){
+            return{
+                status : "INIT",
+                time : new Date(Date.now()).toISOString(),
+                
+            }
+        },
+        methods:{
+            updated(){
+                this.status = "Update Data",
+                this.time = new Date(Date.now()).toISOString()
+            
+            }
+        },
+        beforeCreate(){
+            console.log("Previo a ser creado");
+            console.log(`valor de status ${this.status}, en el momento: ${this.time}`)
+        },
+        created(){
+            console.log("Al a ser creado");
+            console.log(`valor de status ${this.status}, en el momento: ${this.time}`)
+
+        },
+        beforeMount(){
+            console.log( "previo a ser montado cambio su valor");
+            console.log("Previo a ser mounted");
+            this.status = this.status.toLowerCase();
+            
+        },
+        mounted(){
+            console.log("Elemento montado con el valor final");
+            
+            setTimeout(() => {
+                console.log("Cuando es montado!")
+                this.status = "Modificado el valor";
+                this.time = this.time + 'click me to update'
+            },2000);
+        },
+        beforeUpdate(){
+            console.log("Sucede previo a que  se actualice!")
+            console.log(this.status , this.time);
+        },
+        updated(){
+            console.log("Updated!!!!")
+        }
+    }
+
+    let rootApp = Vue.createApp(root);
+
+    rootApp.mount("#root");
+    
+</script>
+</body>
+</html>
