@@ -13,14 +13,17 @@ const loadPage = async (page) => {
     frontend = await loadPage('./spaComponents/frontEnd.html');
     vue = await loadPage('./spaComponents/vue.html');
     
-    sessionStorage.setItem('backend',JSON.stringify(backend));
-    sessionStorage.setItem('dba',JSON.stringify(dba));
-    sessionStorage.setItem('frontend',JSON.stringify(frontend));
-    sessionStorage.setItem('vue',JSON.stringify(vue));
+    sessionStorage.setItem('backend',`${backend}`);
+    sessionStorage.setItem('dba',`${dba}`);
+    sessionStorage.setItem('frontend',`${frontend}`);
+    sessionStorage.setItem('vue',`${vue}`);
 
   };
 
- let data = {
+
+loadAllPages();
+
+  let data = {
     backend : sessionStorage.getItem('backend'),
     dba : sessionStorage.getItem('dba'),
     frontend : sessionStorage.getItem('frontend'),
@@ -32,6 +35,11 @@ const loadPage = async (page) => {
 
 let backend = {
     template:data.backend,
+    data(){
+        return{
+            titulo:"BACKEND"
+        }
+    }
 }
 
 let dba ={
@@ -60,4 +68,10 @@ let root = {
 
 
 let rootComponent = Vue.createApp(root)
+
+rootComponent.component("backend-component",backend);
+rootComponent.component("frontend-component",frontend);
+rootComponent.component("dba-component",dba);
+rootComponent.component("vue-component",vue);
+
 rootComponent.mount("#root");
