@@ -22,17 +22,22 @@
 <hr>
 <div id="dos">
     <button @click="getTasks"> RENDER </button>
-    <h4 v-for="task in tasks" ref="list"> {{ task.todo }} </h4>
+    <button @click="order" 
+            v-if="tasks !== null"
+
+            > ORDER THIS MESS </button>
+    <hr>
+    <p v-show=" tasks != null ">TOTAL DE ITEMS : {{cantidadItems}} </p>
+    <h4 
+        v-for="task in tasks" 
+        ref="list" 
+        :key="task.id" 
+        :class="{task :task.completed}"
+        @click="updateStatus(task)"
+        > {{ task.todo }} </h4>
 </div>
 <hr>
-<div id="tres"></div>
-<div id="cuatro"></div>
-<div id="cinco"></div>
-<div id="seis"></div>
-<div id="siete"></div>
-<div id="ocho"></div>
-<div id="nueve"></div>
-<div id="diez"></div>
+
 <script>
 /* Ejemplo #1 */
 
@@ -87,7 +92,10 @@ let unoRoot = {
 
 const uno = Vue.createApp(unoRoot).mount('#uno');
 
-/*DOS*/
+/* Ejemplo DOS  
+
+datos: refs y un elemento del tipo methods asyncs
+*/
 
 let dosRoot = {
     data:function(){
@@ -104,19 +112,24 @@ let dosRoot = {
             const res = await fetch(URL);
             let {todos} = await res.json();
             this.tasks = todos;
-            console.log(this.$refs)
+            console.log(this.tasks);
+            console.log(this.$refs);
+        },
+        order:function(){
+            this.tasks = this.tasks.sort( (a,b) => a.completed - b.completed)
+        },
+        updateStatus(e){
+            e.completed = !e.completed
+        }
+    },
+    computed:{
+        cantidadItems:function(){
+            if (this.tasks) return this.tasks.length
         }
     }
 }
 
 const dos = Vue.createApp(dosRoot).mount("#dos")
-
-
-
-
-
-
-
 
 
 
@@ -129,7 +142,13 @@ const dos = Vue.createApp(dosRoot).mount("#dos")
     text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
 }
 
+.task{
+    text-decoration: line-through;
+}
 
+.task::before{
+    content: '❌';
+}
 </style>
 </body>
 </html>
