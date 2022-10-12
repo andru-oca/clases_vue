@@ -77,8 +77,42 @@ Se puede realizar de dos formas, uno creando funcionalidades internas dentro del
 ---
 
 - Modificación del DOM y eventos.
+> Modelo del DOM  y eventos:\
+* Que es un evento en VUE, es un método que se ejecuta al un listener.
+
+```
+//ejemplos de eventos
+
+/*
+onclick
+onkeydown & onkeyup
+onload
+entre varios*/
+
+una forma de agregar un escuchador de eventos:
+
+elemento.addEventListener(<evento>, function) ;
+si bien el scope puede realizarse de manera global, no es lo más recomendado y cuando escala el proyecto suele performar de manera negativa
+
+
+diferencia en VUE,
+
+se enfoca principalemente en el scope de la instancia/elemento y se declaran en el sector de methods
+
+methods:{
+    function,
+    function
+}
+
+posterior se le asigna al elemento con la acción respectiva
+
+
+```
+---
 - Esquema de componentes. Dividir un proyecto frontend en componentes.
+
 - Aplicaciones Reactivas.
+
 - Enviar y pedir datos a un servidor.
 
 #### Vue 3 - SPA y Asincronía
@@ -115,12 +149,13 @@ Se puede realizar de dos formas, uno creando funcionalidades internas dentro del
     - Modelo: *Es el modelo de datos y lógica del negocio, también lo podemos considerar como el schema de la lógica de negocio.* 
     
 
-            public class Contact
-            {
-                public string Name        { get; set; }
-                public string LastName    { get; set; }
-                public string PhoneNumber { get; set; }
-                public string Gender      { get; set; }
+             class Contact{
+                constructor(){
+                 Name        { get; set; }
+                 LastName    { get; set; }
+                 PhoneNumber { get; set; }
+                 Gender      { get; set; }
+                }
             }
             
     - Vista-Modelo : *La vista modelo es la lógica de renderización, lo cual implementa las propiedades  y comandos que define las funcionalidades que tendrá la app*

@@ -4,9 +4,92 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next" ></script>
     <title>Samples Vue</title>
 </head>
 <body>
-    
+<h1>Ejemplos</h1>
+<div id="uno">
+    <div v-html="template"></div>
+    <hr>
+    <h1 @click="upper" ref="head">EJEMPLO UNO</h1>
+    <input v-model="medida">
+    <hr>
+    <p>El valor que se ingresa es: {{ medida }} </p>
+    <p :class="{front:state}" ref="p">Status: {{ state }}</p>
+    <child-emit @transfer="sent"></child-emit>
+</div>
+<div id="dos"></div>
+<div id="tres"></div>
+<div id="cuatro"></div>
+<div id="cinco"></div>
+<div id="seis"></div>
+<div id="siete"></div>
+<div id="ocho"></div>
+<div id="nueve"></div>
+<div id="diez"></div>
+<script>
+/* Ejemplo #1 */
+
+let unoRoot = {
+    data(){
+        return{
+            template:`
+                <h1 @click="upper">EJEMPLO UNO</h1>
+                <input v-model="medida">
+                <hr>
+                <p>El valor que se ingresa es: {{ medida }} </p>
+            `,
+            medida:null,
+            mtrs:null,
+            inches:null,
+            inFront:'front',
+            state: null
+        }
+    },
+    mounted(){
+        console.log(this.$refs.head.innerHTML);
+    },
+    methods:{
+        upper:function(){
+            this.$refs.head.innerHTML = 'change!'
+        },
+        sent(state){
+            this.state = state;
+            console.log(this.$refs.p)
+        }
+    },
+    components:{
+        'child-emit':{
+            template: '<button @click="toggleState"> transfer State </button>',
+            data(){
+                return{
+                    state:true
+                }
+            },
+            methods:{
+                toggleState(){
+                    console.log(this.state)
+                    this.state = !this.state
+                    this.$emit('transfer', this.state)
+                }
+
+            }
+        }
+    }
+
+}
+
+const uno = Vue.createApp(unoRoot).mount('#uno');
+
+
+</script>
+<style>
+
+.front{
+    filter: drop-shadow(10px 10px 0.9 #999);
+
+}
+</style>
 </body>
 </html>
