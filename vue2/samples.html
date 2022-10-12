@@ -19,7 +19,12 @@
     <p :class="{front:state}" ref="p">Status: {{ state }}</p>
     <child-emit @transfer="sent"></child-emit>
 </div>
-<div id="dos"></div>
+<hr>
+<div id="dos">
+    <button @click="getTasks"> RENDER </button>
+    <h4 v-for="task in tasks" ref="list"> {{ task.todo }} </h4>
+</div>
+<hr>
 <div id="tres"></div>
 <div id="cuatro"></div>
 <div id="cinco"></div>
@@ -61,7 +66,7 @@ let unoRoot = {
     },
     components:{
         'child-emit':{
-            template: '<button @click="toggleState"> transfer State </button>',
+            template: '<button @click="toggleState"> SENT </button>',
             data(){
                 return{
                     state:true
@@ -82,14 +87,49 @@ let unoRoot = {
 
 const uno = Vue.createApp(unoRoot).mount('#uno');
 
+/*DOS*/
+
+let dosRoot = {
+    data:function(){
+        return {
+            tasks:null
+        }
+    },
+    updated(){
+        console.log(this.$refs.list)
+    },
+    methods:{
+        getTasks: async function(){
+            const URL = 'https://dummyjson.com/todos' ;
+            const res = await fetch(URL);
+            let {todos} = await res.json();
+            this.tasks = todos;
+            console.log(this.$refs)
+        }
+    }
+}
+
+const dos = Vue.createApp(dosRoot).mount("#dos")
+
+
+
+
+
+
+
+
+
+
 
 </script>
 <style>
 
 .front{
-    filter: drop-shadow(10px 10px 0.9 #999);
-
+    filter: drop-shadow(10px 10px 0.9 black);
+    text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
 }
+
+
 </style>
 </body>
 </html>
