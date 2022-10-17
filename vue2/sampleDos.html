@@ -11,14 +11,69 @@
 <div id="app" class="container-lg">
     <div>
         <h1>Programa de Gestion de Pedidos</h1>
+        <h2 v-show="listaDeOrdenes.length!=0 ">Tenes {{cantPedidos}}</h2>
         <hr>
-        <div>
-            <button @click="empezar" class = 'btn' :class="{ 'btn-success': !recibeOrden , 'btn-primary':recibeOrden}">{{ !recibeOrden? 'Empezar':'Cierro'}}</button>
+        <div class="container text-center">
+            <button 
+            @click="empezar" 
+            class = 'btn' :class="{ 'btn-success': !recibeOrden , 'btn-primary':recibeOrden}">{{ !recibeOrden? 'Empezar':'Cierro'}}</button>
         </div>
     </div>
-    <div v-show="recibeOrden">
-        
+    <br>
+    <div v-show="recibeOrden" class="container text-center" >
+        <form method="POST">
+        <div class="container text-center">
+            <div
+                class="row text-center"
+                v-for="(item , index) in listaElementos" 
+                :key="index"
+                >
+                <label 
+                v-if="item=='id' || item == 'status' || item == 'hora'"
+                class="col text-start"
+                hidden
+                >Ingresar {{ item }}</label>
+
+                <label 
+                v-else
+                class="col text-start">Ingresar {{ item }}</label>
+
+                <input 
+                v-if="item=='id' || item == 'status' || item == 'hora'"
+                v-model="orden[item]"
+                type="text" 
+                hidden
+                >
+
+                <input 
+                v-else
+                type="text" 
+                v-model="orden[item]"
+                :placeholder= "item" 
+                class="col text-center form-control" 
+                ref="ordenValores" 
+                >
+                
+
+            </div>
+            <hr>
+        </div>
+
+        <button 
+            @click="agregar($event)" 
+            class = 'btn' 
+            :class="{ 'btn-success': !recibeOrden , 'btn-primary':recibeOrden}"
+            type="submit"
+            > Agrega Pedido </button>
+    </form>
+
     </div>
+    <div v-for="pedido in listaDeOrdenes">
+        {{ pedido }}
+    </div>
+</div>
+
+
 </div>
     
 <!-- CSS only -->
@@ -32,34 +87,55 @@ let app = {
     data(){
         return{
             recibeOrden:false,
-            orden:[
+            orden:
                 { 
-                    id:null,
+                    id:'',
                     nombre : '',
-                    pedido:[
-                        {//esquema del pedido
-                            plato:null,
-                            precio:null,
-                            cantidad:null
-                        }
-                    ],
-                    direccion:null,
-                    totalPedido:null,
-                    horaDePedido:null,
-                    status:true,
-                }
-            ],
-            listaElementos : []
+                    pedido:'',
+                    direccion:'',
+                    total:'',
+                    'valor-envio':'',
+                    hora:'',
+                    status:'',
+                },
+            listaElementos : [],
+            listaDeOrdenes:[],
+            cantPedidos:null,
         }
     },
     mounted(){
-        this.listaElementos = Object.keys(this.orden[0]);
-        console.log(this.listaElementos);
+        this.listaElementos = Object.keys(this.orden);
     },
     methods:{
         empezar(){
             console.log(this.recibeOrden)
             this.recibeOrden = !this.recibeOrden ;
+        },
+        agregar(e){
+            e.preventDefault();
+            let newPedido = {...this.orden ,...{ 
+                    id:crypto.randomUUID(),
+                    hora:new Date(Date.now()).toISOString()
+                }};
+            this.listaDeOrdenes.push(newPedido);
+            this.orden = { 
+                    id:'',
+                    nombre : '',
+                    pedido:'',
+                    direccion:'',
+                    total:'',
+                    'valor-envio':'',
+                    hora:'',
+                    status:'',
+                }
+        }
+    },
+    watch:{
+        listaDeOrdenes:{
+            handler: function(){
+                this.cantPedidos = this.listaDeOrdenes.length;
+            },
+            deep:true
         }
     }
 
