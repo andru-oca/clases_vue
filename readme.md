@@ -1,4 +1,5 @@
-#### Vue 1 - Introducción a Vue
+#### Vue 1 - Introducción a Vue --> Anderson Update!
+
 ---
 - Introducción a Vue.js. ¿Qué es? Instalación. CDN.
     >Instalación de VUE - Modo por CLI\
