@@ -1,3 +1,6 @@
+EDICION: May 12
+---
+
 #### Vue 1 - Introducción a Vue --> Anderson Update!
 
 ---
